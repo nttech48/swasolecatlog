@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Swasole — Catalog (IDR Pricing)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ivory:#FAF6EF;
+    --card:#FFFFFF;
+    --line:#E7DFD1;
+    --ink:#2B2620;
+    --ink-soft:#6B6255;
+    --gold:#A6803D;
+    --gold-deep:#7C5E2B;
+    --plum:#4A3B4E;
+    --blush:#F0E6D8;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--ivory);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+
+  /* ---- Header / Hero ---- */
+  .site-header{
+    padding:52px 32px 36px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+    background:
+      radial-gradient(120% 140% at 50% -20%, rgba(166,128,61,0.10), transparent 60%),
+      var(--ivory);
+  }
+  .wordmark{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:clamp(42px, 7vw, 64px);
+    letter-spacing:0.01em;
+    margin:0;
+    color:var(--ink);
+  }
+  .wordmark em{
+    font-style:italic;
+    color:var(--gold-deep);
+  }
+  .tagline{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:20px;
+    color:var(--ink-soft);
+    margin:10px 0 22px;
+  }
+  .currency-note{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:13px;
+    color:var(--gold-deep);
+    background:var(--blush);
+    border:1px solid var(--line);
+    padding:8px 16px;
+    border-radius:999px;
+  }
+  .currency-note b{font-weight:600;}
+
+  /* ---- Controls ---- */
+  .controls{
+    max-width:1160px;
+    margin:0 auto;
+    padding:28px 32px 0;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+  }
+  .tabs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .tab{
+    font-family:'Work Sans', sans-serif;
+    font-size:13.5px;
+    letter-spacing:0.01em;
+    padding:9px 16px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:var(--card);
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:border-color .15s ease, color .15s ease, background .15s ease;
+    white-space:nowrap;
+  }
+  .tab:hover{border-color:var(--gold);}
+  .tab.active{
+    background:var(--ink);
+    border-color:var(--ink);
+    color:var(--ivory);
+  }
+  .search-wrap{
+    position:relative;
+    min-width:220px;
+  }
+  .search-wrap input{
+    width:100%;
+    font-family:'Work Sans', sans-serif;
+    font-size:14px;
+    padding:10px 14px 10px 36px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:var(--card);
+    color:var(--ink);
+    outline:none;
+  }
+  .search-wrap input:focus{border-color:var(--gold);}
+  .search-wrap svg{
+    position:absolute;
+    left:13px;
+    top:50%;
+    transform:translateY(-50%);
+    width:14px;
+    height:14px;
+    color:var(--ink-soft);
+  }
+
+  .count-row{
+    max-width:1160px;
+    margin:18px auto 0;
+    padding:0 32px;
+    font-size:13px;
+    color:var(--ink-soft);
+  }
+
+  /* ---- Grid ---- */
+  .grid{
+    max-width:1160px;
+    margin:0 auto;
+    padding:20px 32px 64px;
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:22px;
+  }
+  @media (max-width:980px){ .grid{grid-template-columns:repeat(3,1fr);} }
+  @media (max-width:700px){ .grid{grid-template-columns:repeat(2,1fr);} .controls{padding-left:20px;padding-right:20px;} .grid{padding-left:20px;padding-right:20px;} }
+  @media (max-width:420px){ .grid{grid-template-columns:1fr 1fr;gap:14px;} }
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:6px;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+  }
+  .card-img{
+    aspect-ratio:1/1;
+    width:100%;
+    background:var(--blush);
+    overflow:hidden;
+    position:relative;
+  }
+  .card-img img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .card-body{
+    padding:14px 16px 16px;
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    flex:1;
+  }
+  .card-cat{
+    font-size:11px;
+    color:var(--gold-deep);
+    letter-spacing:0.02em;
+  }
+  .card-title{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:19px;
+    line-height:1.25;
+    margin:0;
+    color:var(--ink);
+  }
+  .card-price{
+    margin-top:auto;
+    padding-top:8px;
+    font-size:15px;
+    font-weight:600;
+    color:var(--ink);
+  }
+  .card-price .curr{
+    font-size:12px;
+    font-weight:500;
+    color:var(--ink-soft);
+    margin-right:3px;
+  }
+
+  .empty-state{
+    max-width:1160px;
+    margin:0 auto;
+    padding:60px 32px;
+    text-align:center;
+    color:var(--ink-soft);
+    font-family:'Cormorant Garamond', serif;
+    font-size:20px;
+    font-style:italic;
+    display:none;
+  }
+
+  footer{
+    text-align:center;
+    padding:28px 20px 40px;
+    font-size:12px;
+    color:var(--ink-soft);
+    border-top:1px solid var(--line);
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1 class="wordmark">Swasol<em>e</em></h1>
+  <p class="tagline">Everyday jewelry, finished in 18K gold</p>
+  <span class="currency-note">Pricing shown in <b>Indonesian Rupiah (IDR)</b> · converted from INR at ≈ 1 INR = 185 IDR</span>
+</header>
+
+<div class="controls">
+  <div class="tabs" id="tabs"></div>
+  <div class="search-wrap">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" id="search" placeholder="Search products…">
+  </div>
+</div>
+
+<div class="count-row" id="count"></div>
+
+<div class="grid" id="grid"></div>
+<p class="empty-state" id="empty">No pieces match your search.</p>
+
+<footer>Swasole — catalog generated for reference · prices are indicative estimates, please confirm current rates before invoicing</footer>
+
+<script>
+const PRODUCTS = 
+[{"handle": "harmony-link-necklace", "title": "Modern Muse Necklace", "category": "Necklaces", "inr": 1390.0, "idr": 257000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/1FFB5274-3F7C-4B30-A80A-CA0915373088.jpg?v=1784322139"}, {"handle": "swasole-evil-eye-crystal-pendant-necklace", "title": "Divine Gaze Necklace", "category": "Necklaces", "inr": 1850.0, "idr": 342000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/8106B63F-3DDB-4A24-B720-C016D820CBB8.jpg?v=1784321791"}, {"handle": "smoky-oval-stone-link-chain-necklace", "title": "Hazel Orbit Necklace", "category": "Necklaces", "inr": 1690.0, "idr": 313000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/66234D72-2D1B-426F-9443-C69DB0CAB97A.jpg?v=1784321498"}, {"handle": "golden-coil-bangle", "title": "Aura Statement Cuff", "category": "Bracelets", "inr": 2490.0, "idr": 461000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/AE405E66-D6E4-4ADA-AD6C-3060774EDFC3.jpg?v=1784321081"}, {"handle": "golden-love-bracelet", "title": "Forever Love Bracelet", "category": "Bracelets", "inr": 2110.0, "idr": 390000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/CACEEF73-4CEC-4B50-8AE7-659D518C3C83.jpg?v=1784320931"}, {"handle": "the-crystal-cascade-necklace", "title": "Tennis Drop Necklace", "category": "Necklaces", "inr": 2370.0, "idr": 438000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/0724B7D3-3A85-43DF-BDBF-E20B594C4E1C.jpg?v=1784320730"}, {"handle": "amber-halo-hoop-earrings", "title": "Milan Hoop Earrings", "category": "Earrings", "inr": 1880.0, "idr": 348000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/92B785F9-C997-45F5-B441-0B107727B55B.jpg?v=1784320459"}, {"handle": "golden-dew-drop-earrings", "title": "Golden Rain Earrings", "category": "Earrings", "inr": 1620.0, "idr": 300000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/222498F6-1E45-411C-8CBB-9C4D10CC42F3.jpg?v=1784320215"}, {"handle": "autumn-bamboo-bracelet", "title": "Cocoa Resin Bangles", "category": "Bracelets", "inr": 1560.0, "idr": 289000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/B71C6A89-EE40-4BC9-9625-94314F011D6E.jpg?v=1784320026"}, {"handle": "amber-glow-drop-earrings", "title": "Honey Drop Earrings", "category": "Earrings", "inr": 1390.0, "idr": 257000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/8D0E1A51-D64F-46A1-97CA-16ACBF64B64B.jpg?v=1784319737"}, {"handle": "faith-heart-charm-necklace", "title": "Lucky Charms Necklace", "category": "Necklaces", "inr": 2430.0, "idr": 450000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/B2E1955B-A81E-4AE2-92CA-A79A03B46B49.jpg?v=1784319570"}, {"handle": "luna-solitaire-anklet-18k-gold-plated", "title": "Solitaire Anklet", "category": "Anklets", "inr": 1370.0, "idr": 253000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/ACF209AE-0C08-4388-8278-96657272D119.jpg?v=1780035158"}, {"handle": "celestia-crystal-drop-anklet-18k-gold-plated", "title": "Crystal Drop Anklet", "category": "Anklets", "inr": 1500.0, "idr": 278000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG-6456.jpg?v=1780035016"}, {"handle": "triple-band-gold-ear-cuff", "title": "Triple Band Gold Ear Cuff", "category": "Earrings", "inr": 1458.0, "idr": 270000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/B4C613D2-7C26-424C-99FF-0757005CAF5A.jpg?v=1779448317"}, {"handle": "serpent-crystal-ear-cuff-gold-non-piercing-ear-wrap", "title": "Serpent Crystal Ear Cuff – Gold Non-Piercing Ear Wrap", "category": "Earrings", "inr": 1632.0, "idr": 302000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/C63963BA-9788-47AB-B1A6-6FB50C124265.jpg?v=1779448088"}, {"handle": "luxe-twist-ear-cuff-gold-silver-finish", "title": "Luxe Twist Ear Cuff – Gold & Silver Finish", "category": "Earrings", "inr": 1625.0, "idr": 301000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/48B82DAF-C1D5-404A-AF6D-5DABE0A4A05D.jpg?v=1779447618"}, {"handle": "luminous-pearl-fringe-anklet", "title": "Pearl Charm Anklet", "category": "Anklets", "inr": 1430.0, "idr": 265000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/5F51B34B-2BA7-402A-8341-58ACDD0FA50D.jpg?v=1779444924"}, {"handle": "rainbow-gemstone-freshwater-pearl-anklet", "title": "Rainbow Freshwater Pearl Anklet", "category": "Anklets", "inr": 1465.0, "idr": 271000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/2C5BC37A-7128-40E9-AEE2-9AAF974FB1CC.jpg?v=1779444383"}, {"handle": "sunburst-charm-anklet", "title": "Sunburst Charm Anklet", "category": "Anklets", "inr": 1200.0, "idr": 222000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/90F40180-61CB-4FCA-9CF1-A5E201A46639.jpg?v=1779444026"}, {"handle": "miami-cuban-link-anklet", "title": "Miami Link Anklet", "category": "Anklets", "inr": 1500.0, "idr": 278000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/1CE6AADB-DEA6-46E5-8940-E3756C13538C.jpg?v=1779443719"}, {"handle": "cupid-petite-charm-anklet", "title": "Cupid Charm Anklet", "category": "Anklets", "inr": 1170.0, "idr": 216000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/978DFF38-A3C2-4ED5-8D29-A0F5DF63DD33.jpg?v=1779443176"}, {"handle": "chloe-fine-bead-curb-anklet", "title": "Fine Bead Curb Anklet", "category": "Anklets", "inr": 813.0, "idr": 150000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/PHOTO-2026-05-17-22-20-09.jpg?v=1779767789"}, {"handle": "riviera-duo-link-anklet", "title": "Riviera Two layered Anklet", "category": "Anklets", "inr": 1240.0, "idr": 229000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG-6414.jpg?v=1779443412"}, {"handle": "brooklyn-paperclip-chain-anklet", "title": "Paperclip Chain Anklet", "category": "Anklets", "inr": 910.0, "idr": 168000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG-6419.jpg?v=1779442429"}, {"handle": "aurelia-dainty-bead-anklet-by-swasole", "title": "Gold Bead Connect Ankle", "category": "Anklets", "inr": 1040.0, "idr": 192000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG_4988_JPG.jpg?v=1779382509"}, {"handle": "swasole-evil-eye-rings", "title": "Swasolé Evil Eye Rings", "category": "Rings", "inr": 3000.0, "idr": 555000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG_4406_JPG.jpg?v=1777797557"}, {"handle": "swasole-aurelia-coin-pearl-earrings", "title": "Swasolé Aurelia Coin Pearl Earrings", "category": "Earrings", "inr": 1625.0, "idr": 301000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG_4404_JPG.jpg?v=1777801807"}, {"handle": "swasole-radiant-flow-necklace", "title": "Swasolé Radiant Flow Necklace & Bracelet", "category": "Necklaces", "inr": 4000.0, "idr": 740000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG_4409_JPG_ed666cf0-68a9-4d89-8405-eaf3c4edbcc1.jpg?v=1777797019"}, {"handle": "mocha-elegance-luxe-clutch", "title": "Mocha Elegance Luxe Clutch", "category": "Clutch Bags", "inr": 2808.0, "idr": 519000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/85507a09-94b8-4300-babf-1381b3489d32.jpg?v=1779854806"}, {"handle": "midnight-sparkle-luxe-clutch", "title": "Midnight Sparkle Luxe Clutch", "category": "Clutch Bags", "inr": 3380.0, "idr": 625000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/36c1dad7-2d87-4251-88ab-9ce9cf59688b.jpg?v=1779854807"}, {"handle": "swasole-floral-royale-silk-clutch", "title": "Swasolé Floral Royale Silk Clutch", "category": "Clutch Bags", "inr": 3276.0, "idr": 606000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/6951962d-7548-46c7-8f8f-e84af66e5b75.jpg?v=1779854807"}, {"handle": "regal-pearl-symphony-clutch", "title": "Regal Pearl Symphony Clutch", "category": "Clutch Bags", "inr": 2626.0, "idr": 486000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/1fd65599-4188-4a1c-9862-8865467af11e.jpg?v=1779854806"}, {"handle": "black-noir-hand-beaded-clutch", "title": "Black Noir Hand Beaded Clutch", "category": "Clutch Bags", "inr": 3009.0, "idr": 557000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/WhatsApp_Image_2026-02-03_at_2.40.51_PM_f41334bb-66ee-4126-93ea-3fbe274f537b.jpg?v=1770129494"}, {"handle": "blush-pearl-clutch", "title": "Blush Pearl Clutch", "category": "Clutch Bags", "inr": 3256.0, "idr": 602000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/WhatsAppImage2026-02-03at2.40.52PM_2.jpg?v=1770129011"}, {"handle": "regal-gold-crystal-clutch", "title": "Regal Gold Crystal Clutch", "category": "Clutch Bags", "inr": 2990.0, "idr": 553000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/WhatsApp_Image_2026-02-03_at_2.40.52_PM_3.jpg?v=1770131484"}, {"handle": "ivory-sequin-glam-clutch", "title": "Ivory Sequin Glam Clutch", "category": "Clutch Bags", "inr": 2968.0, "idr": 549000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/WhatsApp_Image_2026-02-03_at_2.40.52_PM_1.jpg?v=1770131589"}, {"handle": "emerald-radiance-crystal-clutch", "title": "Emerald Radiance Crystal Clutch", "category": "Clutch Bags", "inr": 3068.0, "idr": 568000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/WhatsApp_Image_2026-02-03_at_2.40.52_PM.jpg?v=1779855461"}, {"handle": "love-forever-locket-necklace", "title": "Love Forever Necklace", "category": "Necklaces", "inr": 2100.0, "idr": 388000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG_1824_JPG.jpg?v=1770104091"}, {"handle": "colourful-hearts-ring", "title": "Colourful Hearts Ring", "category": "Rings", "inr": 2250.0, "idr": 416000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG_9475.jpg?v=1763489037"}, {"handle": "starlit-dawn-ring-where-elegance-meets-radiance", "title": "Starlit Dawn Ring", "category": "Rings", "inr": 5959.0, "idr": 1102000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_3121b8fd-1fb4-4883-a65c-69044d6a111d.jpg?v=1761161040"}, {"handle": "sunflare-ring-radiance-that-captures-every-glance", "title": "Sunflare Ring", "category": "Rings", "inr": 3920.0, "idr": 725000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_6776b0f5-a92b-4681-828d-9e65ab1d6494.jpg?v=1759995286"}, {"handle": "lustre-promise-ring-a-shimmering-token-of-devotion", "title": "Lustre Promise Ring", "category": "Rings", "inr": 3423.0, "idr": 633000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_6c60dbc6-d467-4fbb-8d86-78b737222bec.jpg?v=1760027065"}, {"handle": "heart-whisper-ring-a-symbol-of-subtle-romance", "title": "Heart Whisper Ring", "category": "Rings", "inr": 3713.0, "idr": 687000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_91a8eb1f-d7c8-41f9-b99b-ca2312c8bc9c.jpg?v=1760027135"}, {"handle": "twilight-gleam-ring-the-radiance-of-refined-elegance", "title": "Twilight Gleam Ring", "category": "Rings", "inr": 4023.0, "idr": 744000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_9f9a0180-e77d-4068-992d-3332825bfc6f.jpg?v=1760027188"}, {"handle": "nysa-ring", "title": "Nysa Ring", "category": "Rings", "inr": 2623.0, "idr": 485000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_703244ac-8841-42f7-8d4e-4db1e5419ced.jpg?v=1760027225"}, {"handle": "liora-ring", "title": "Liora Ring", "category": "Rings", "inr": 2811.0, "idr": 520000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_2b3007ae-9478-491c-b618-ce417e002c19.jpg?v=1760027263"}, {"handle": "solitaire-stud-earrings", "title": "Solitaire Stud Earrings", "category": "Earrings", "inr": 1100.0, "idr": 204000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_9cb6f5e5-66a4-41eb-874a-f5609326d9ce.jpg?v=1760027306"}, {"handle": "moonhalo-drops-1", "title": "Moonhalo Drops", "category": "Earrings", "inr": 1800.0, "idr": 333000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/37C50F52-1E2A-4E6B-AD25-FFA2628A958D.jpg?v=1758797842"}, {"handle": "solaris-ring", "title": "Solaris Ring", "category": "Rings", "inr": 1100.0, "idr": 204000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_c0cd99a1-0deb-42b2-940a-5c11bbafafc6.jpg?v=1758022728"}, {"handle": "untitled-16sept_15-33", "title": "Regal Torque Cuff", "category": "Bracelets", "inr": 1600.0, "idr": 296000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_3b2f6067-7ff0-46df-9db5-fb286881f97a.jpg?v=1758017039"}, {"handle": "untitled-sep16_01-50", "title": "Golden Tome Cuff", "category": "Bracelets", "inr": 1300.0, "idr": 240000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG-2784.jpg?v=1757967738"}, {"handle": "duo-link-chain-necklace", "title": "Duo Link Chain Necklace", "category": "Necklaces", "inr": 1300.0, "idr": 240000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG-2781.jpg?v=1757967412"}, {"handle": "slate-bold-ring", "title": "Slate Bold Ring", "category": "Rings", "inr": 1400.0, "idr": 259000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/4B6FB230-63C2-4241-8DAE-DE479AD8392F.jpg?v=1757965601"}, {"handle": "golden-dewdrop-ring", "title": "Golden Dewdrop Ring", "category": "Rings", "inr": 1600.0, "idr": 296000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG-2778.jpg?v=1757964714"}, {"handle": "molten-core-necklace-1", "title": "Molten Core Necklace", "category": "Necklaces", "inr": 2200.0, "idr": 407000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG_6990.jpg?v=1757959277"}, {"handle": "gilded-curve-hoops", "title": "Gilded Curve Hoops", "category": "Earrings", "inr": 1200.0, "idr": 222000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG_6988.jpg?v=1757958462"}, {"handle": "pearl-promise-earrings", "title": "Pearl Promise Earrings", "category": "Earrings", "inr": 1200.0, "idr": 222000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG_6587.jpg?v=1756797387"}, {"handle": "tidal-grace-ring-24k-gold-plated", "title": "Tidal Grace Ring", "category": "Rings", "inr": 1300.0, "idr": 240000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/51759499-E587-4955-9AD3-C71A465E85AF.jpg?v=1756119642"}, {"handle": "golden-ripple-ring-24k-gold-plated", "title": "Golden Ripple Ring", "category": "Rings", "inr": 1200.0, "idr": 222000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/A6610B6E-807A-43E1-9B30-5EEA59D02B3A.jpg?v=1756119638"}, {"handle": "heart-connect-ring-24k-gold-plated", "title": "Heart Connect Ring", "category": "Rings", "inr": 1099.0, "idr": 203000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/FFE4889F-CCFB-44DB-ADC5-C95B94293284.jpg?v=1756119642"}, {"handle": "galaxy-ring-24k-gold-plated", "title": "Galaxy Ring", "category": "Rings", "inr": 1499.0, "idr": 277000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/1D6E479A-9C24-458E-AB64-898E7B06D1BE.jpg?v=1756119643"}, {"handle": "ocean-s-whisper-ring-24k-gold-plated", "title": "Ocean’s Whisper Ring", "category": "Rings", "inr": 1099.0, "idr": 203000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG-2550.jpg?v=1756116821"}, {"handle": "gravite-bracelet-balanced-bold-brilliant", "title": "Gravité Bracelet", "category": "Bracelets", "inr": 1399.0, "idr": 259000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG_4662.jpg?v=1753274665"}, {"handle": "fierce-loop-bracelet-bold-powerful-and-unapologetically-you", "title": "Fierce Loop Bracelet", "category": "Bracelets", "inr": 978.0, "idr": 181000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG_4664.jpg?v=1753274666"}, {"handle": "soul-wrap-bracelet-delicate-distinct-and-designed-for-you", "title": "Soul Wrap Bracelet", "category": "Bracelets", "inr": 870.0, "idr": 161000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG_4660.jpg?v=1753274665"}, {"handle": "solis-chain-bracelet-radiate-power-with-every-link", "title": "Solis Chain Bracelet", "category": "Bracelets", "inr": 877.0, "idr": 162000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG_4658.jpg?v=1753274667"}, {"handle": "grace-link-bracelet-timeless-strength-in-every-link", "title": "Grace Link Bracelet", "category": "Bracelets", "inr": 991.0, "idr": 183000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG_4656.jpg?v=1753274665"}, {"handle": "axel-chain-bracelet-for-men-18k-gold-plated", "title": "Axel Chain Bracelet for Men | 18K Gold Plated", "category": "Bracelets", "inr": 990.0, "idr": 183000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG_4587.jpg?v=1753030757"}, {"handle": "axel-chain-bracelet-stainless-steel-minimalist-jewelry", "title": "Axel Chain Bracelet Silver", "category": "Bracelets", "inr": 990.0, "idr": 183000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG_4585.jpg?v=1753030757"}, {"handle": "caden-cuff-in-silver", "title": "Caden Cuff | Men’s Silver Bracelet", "category": "Bracelets", "inr": 2362.0, "idr": 437000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG_4540.jpg?v=1753011540"}, {"handle": "veer-cuff-adjustable-men-s-stainless-steel-18k-gold-plated-bracelet-swasole", "title": "Veer Cuff – Adjustable 18K Gold Plated Bracelet", "category": "Bracelets", "inr": 1318.0, "idr": 244000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG_4528.jpg?v=1753002840"}, {"handle": "caden-cuff-18k-gold-plated-stainless-steel-bracelet-for-men", "title": "Caden Cuff – 18k Gold-Plated Bracelet", "category": "Bracelets", "inr": 2362.0, "idr": 437000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG_4538.jpg?v=1753011571"}, {"handle": "alpha-cuff", "title": "Alpha Cuff", "category": "Bracelets", "inr": 1394.0, "idr": 258000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG_4524.jpg?v=1753011594"}, {"handle": "embrace-loop-pairing", "title": "Embrace Loop Pairing", "category": "Jewelry Sets", "inr": 3200.0, "idr": 592000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole_.zip_-_114.jpg?v=1757902150"}, {"handle": "flora-set-where-elegance-blooms", "title": "Flora Set- Where Elegance Blooms", "category": "Jewelry Sets", "inr": 3620.0, "idr": 670000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole_.zip_-_38.jpg?v=1757902198"}, {"handle": "orbit-blend-set", "title": "Orbit Blend Set", "category": "Jewelry Sets", "inr": 3000.0, "idr": 555000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/ChatGPT_Image_Jul_14_2025_09_27_54_PM.png?v=1757147359"}, {"handle": "celestial-compass-pendant-with-chain", "title": "Celestial Compass Pendant (With Chain)", "category": "Charms & Pendants", "inr": 1575.0, "idr": 291000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG_4301.jpg?v=1752433343"}, {"handle": "luna-loop-pendant-with-chain", "title": "Luna Loop Pendant (With Chain)", "category": "Charms & Pendants", "inr": 1425.0, "idr": 264000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG_4300.jpg?v=1752433343"}, {"handle": "mocha-glow-pendant-chain", "title": "Mocha Glow Pendant Chain", "category": "Necklaces", "inr": 1490.0, "idr": 276000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/IMG_4307.jpg?v=1752433317"}, {"handle": "untitled-10jul_02-31", "title": "Embrace loop Earrings", "category": "Earrings", "inr": 1680.0, "idr": 311000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole_.pdf_32__11.jpg?v=1757902150"}, {"handle": "embrace-loop-necklace", "title": "Embrace Loop Necklace", "category": "Necklaces", "inr": 1520.0, "idr": 281000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole_.pdf_32__9.jpg?v=1757902150"}, {"handle": "flora-statement-drop-earrings", "title": "Flora Statement Drop Earrings", "category": "Earrings", "inr": 1620.0, "idr": 300000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole_.pdf_32__7.jpg?v=1757902198"}, {"handle": "flora-bold-charm-necklace", "title": "Flora Bold Charm Necklace", "category": "Necklaces", "inr": 2000.0, "idr": 370000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole_.pdf_32__5.jpg?v=1757902198"}, {"handle": "orbit-blend-dual-tone-bracelet", "title": "Orbit Blend Dual-Tone Bracelet", "category": "Bracelets", "inr": 1180.0, "idr": 218000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole_.pdf_32__3.jpg?v=1752509491"}, {"handle": "orbit-blend-dual-tone-necklace", "title": "Orbit Blend Dual-Tone Necklace", "category": "Necklaces", "inr": 1980.0, "idr": 366000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole_.pdf_32__1.jpg?v=1752509491"}, {"handle": "stardust-path-bracelet", "title": "Stardust Past Bracelet", "category": "Bracelets", "inr": 2420.0, "idr": 448000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole_.pdf_30__page-0007.jpg?v=1751014794"}, {"handle": "celestial-dot-bracelet", "title": "Celestial Dot Bracelet", "category": "Bracelets", "inr": 1320.0, "idr": 244000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole_.pdf_30__page-0009.jpg?v=1751015195"}, {"handle": "wave-dusk-bracelet", "title": "Wave Dusk Bracelet", "category": "Bracelets", "inr": 1320.0, "idr": 244000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole_.pdf_30__page-0005.jpg?v=1751015265"}, {"handle": "heartline-glow-bracelet", "title": "Heartline Glow Bracelet", "category": "Bracelets", "inr": 1130.0, "idr": 209000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole_.pdf_30__page-0003.jpg?v=1751015453"}, {"handle": "golden-whisper-bracelet", "title": "Golden Whisper Bracelet", "category": "Bracelets", "inr": 1320.0, "idr": 244000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole_.pdf_30__page-0001.jpg?v=1751015882"}, {"handle": "gleam-sphere-bracelet", "title": "Gleam Sphere Bracelet", "category": "Bracelets", "inr": 1299.0, "idr": 240000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole_.pdf_26__page-0001.jpg?v=1750827112"}, {"handle": "sunloop-bangles", "title": "Sunloop bangles (set of 5) size 2.4 , 2.6", "category": "Bracelets", "inr": 1536.0, "idr": 284000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole_.pdf_27__page-0002.jpg?v=1750826862"}, {"handle": "lunar-bangles-set-of-5", "title": "Lunar Bangles (set of  5)size 2.4", "category": "Bracelets", "inr": 1620.0, "idr": 300000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole_.pdf_27__page-0003.jpg?v=1750824687"}, {"handle": "sculpted-swirl-cuff", "title": "Sculpted Swirl Cuff", "category": "Bracelets", "inr": 1718.0, "idr": 318000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole_.pdf_28__page-0001.jpg?v=1750824661"}, {"handle": "bold-bond-cuff", "title": "Bold Bond Cuff", "category": "Bracelets", "inr": 1930.0, "idr": 357000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole_.pdf_28__page-0003.jpg?v=1750824661"}, {"handle": "golden-drift-cuff", "title": "Golden Drift Cuff", "category": "Bracelets", "inr": 1080.0, "idr": 200000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole_.pdf_28__page-0005.jpg?v=1750824661"}, {"handle": "noor-edge-bangles-silver", "title": "Noor Edge Bangles (SILVER)", "category": "Bracelets", "inr": 1580.0, "idr": 292000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole_.pdf_17__page-0003.jpg?v=1750797364"}, {"handle": "twin-tides-neck-chain", "title": "Twin Tide Neck Chain", "category": "Necklaces", "inr": 1480.0, "idr": 274000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole_.pdf_16__page-0003.jpg?v=1753945644"}, {"handle": "star-pendant-necklace", "title": "Star Pendant Necklace", "category": "Necklaces", "inr": 1520.0, "idr": 281000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole.pdf_15__page-0003.jpg?v=1753945772"}, {"handle": "lustre-flow-necklace", "title": "Lustre Flow Necklace", "category": "Necklaces", "inr": 1520.0, "idr": 281000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole.pdf_15__page-0005.jpg?v=1753945838"}, {"handle": "trinity-gleam-necklace", "title": "Trinity Gleam Necklace", "category": "Necklaces", "inr": 1655.0, "idr": 306000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole.pdf_15__page-0007.jpg?v=1753945936"}, {"handle": "sun-medallion-necklace", "title": "Sun Medallion Necklace", "category": "Necklaces", "inr": 1620.0, "idr": 300000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole.pdf_15__page-0009.jpg?v=1750776586"}, {"handle": "amor-loop-hoops", "title": "Amor Loop Hoops", "category": "Earrings", "inr": 1780.0, "idr": 329000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole.pdf_10__page-0006.jpg?v=1750742772"}, {"handle": "ripple-glint-sruds", "title": "Ripple Glint Studs", "category": "Earrings", "inr": 1520.0, "idr": 281000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole.pdf_10__page-0008.jpg?v=1750742434"}, {"handle": "golden-cascade-drops", "title": "Golden Cascade Drops", "category": "Earrings", "inr": 1680.0, "idr": 311000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole.pdf_10__page-0010.jpg?v=1750742060"}, {"handle": "lustre-arch-hoops", "title": "Lustre Arch Hoops", "category": "Earrings", "inr": 1620.0, "idr": 300000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole.pdf_10__page-0012.jpg?v=1750741669"}, {"handle": "gleam-crescent-hoops", "title": "Gleam Crescent Hoops", "category": "Earrings", "inr": 1620.0, "idr": 300000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole.pdf_10__page-0014.jpg?v=1750741349"}, {"handle": "celestet-eternity-band", "title": "Celestet Eternity Band", "category": "Rings", "inr": 1320.0, "idr": 244000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole.pdf_8__page-0003.jpg?v=1750701190"}, {"handle": "aurora-crown-ring", "title": "Aurora Crown Ring", "category": "Rings", "inr": 1380.0, "idr": 255000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole.pdf_8__page-0002.jpg?v=1750700874"}, {"handle": "open-eclipta-ring-1", "title": "Open Eclipta Ring", "category": "Rings", "inr": 1480.0, "idr": 274000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole.pdf_2__page-0005.jpg?v=1750699866"}, {"handle": "open-eclipta-ring", "title": "Open Eclipta Ring", "category": "Rings", "inr": 1380.0, "idr": 255000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole.pdf_2__page-0006.jpg?v=1750699430"}, {"handle": "trinity-gleam-ring", "title": "Trinity Gleam Ring", "category": "Rings", "inr": 1220.0, "idr": 226000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole.pdf_8__page-0001.jpg?v=1755644769"}, {"handle": "gulnoor-drop-earring", "title": "Gulnoor Drop Earring", "category": "Earrings", "inr": 1440.0, "idr": 266000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole.pdf_7__page-0003.jpg?v=1753946186"}, {"handle": "raat-rani-studs", "title": "Raat Rani Studs", "category": "Earrings", "inr": 1800.0, "idr": 333000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_31423873-b468-4a46-b8f5-53951cc3f424.jpg?v=1750140146"}, {"handle": "dome-studs", "title": "Dome Studs", "category": "Earrings", "inr": 1430.0, "idr": 265000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_523e0a13-5fb4-4d4d-9e13-f87e72a27e10.jpg?v=1750140146"}, {"handle": "golden-echo", "title": "Golden Echo", "category": "Earrings", "inr": 1730.0, "idr": 320000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_d24a09b2-3e67-42d4-b38d-5c3d3c84f7ab.jpg?v=1750140147"}, {"handle": "cushion-glint-studs", "title": "Cushion Glint Studs", "category": "Earrings", "inr": 1380.0, "idr": 255000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_b052cc1d-6555-45b8-9523-bf79c2472ee7.jpg?v=1750140146"}, {"handle": "chakra-studs", "title": "Chakra Studs", "category": "Earrings", "inr": 1520.0, "idr": 281000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_674e8e76-86bd-40fb-ab8d-8e2ae269b69e.jpg?v=1750140146"}, {"handle": "swiel-studs", "title": "Swiel Studs", "category": "Earrings", "inr": 1520.0, "idr": 281000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_d04e3a81-cf66-413d-af2a-3ee7b044feed.jpg?v=1750140146"}, {"handle": "gulnoor-drop-earrings", "title": "Gulnoor Drop Earrings", "category": "Earrings", "inr": 1980.0, "idr": 366000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole_.pdf_7__page-0001.jpg?v=1753946223"}, {"handle": "naaya-coil-ring", "title": "Naaya Coil Ring", "category": "Rings", "inr": 1020.0, "idr": 189000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_04cb4b65-51dd-4352-9d10-d9072d057ea1.jpg?v=1750140146"}, {"handle": "tara-dot-ring", "title": "Tara Dot Ring", "category": "Rings", "inr": 960.0, "idr": 178000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_5ea64b5c-3a29-4ca8-8197-eb80b0aab41a.jpg?v=1750140146"}, {"handle": "auh-chain-ring", "title": "Ruh Chain Ring", "category": "Rings", "inr": 950.0, "idr": 176000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_3c7e8249-f8f5-415f-9535-a1e8705a4bf5.jpg?v=1750140147"}, {"handle": "moonlight-hearts-necklace", "title": "Moonlight hearts Necklace", "category": "Necklaces", "inr": 1620.0, "idr": 300000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_11e7edc8-ad2b-4e50-844d-f48b02938cce.jpg?v=1753946264"}, {"handle": "twinkle-belle-necklace", "title": "Twinkle Belle Necklace – 18K Gold Plated", "category": "Necklaces", "inr": 1830.0, "idr": 339000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_137ac3d1-049a-41fd-b3d9-cdf4946b11ae.jpg?v=1750140147"}, {"handle": "riwaaz-bracelet", "title": "Riwaaz Bracelet", "category": "Bracelets", "inr": 1199.0, "idr": 222000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_dd7328d6-d743-4396-b6ba-cdc405138c62.jpg?v=1753946307"}, {"handle": "twin-tides-neck-chain-silver", "title": "Twin Tides Neck Chain (SILVER)", "category": "Necklaces", "inr": 1280.0, "idr": 237000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/Swasole_.pdf_16__page-0001.jpg?v=1750786943"}, {"handle": "auric-coil-neck-chain", "title": "Auric Coil Neck Chain", "category": "Necklaces", "inr": 1620.0, "idr": 300000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_023dce43-784a-4c6b-a962-536ecf540903.jpg?v=1750140146"}, {"handle": "amara-necklace", "title": "Amara Necklace", "category": "Necklaces", "inr": 2220.0, "idr": 411000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_57f3daea-51d5-49ab-8c09-30a8cacc2bad.jpg?v=1753946555"}, {"handle": "molten-muse-earring", "title": "MOLTEN MUSE EARRING", "category": "Earrings", "inr": 1120.0, "idr": 207000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_2d7b13a0-d680-461c-835e-cb29bbdb83ec.jpg?v=1753946589"}, {"handle": "pearlette-bangle", "title": "PEARLETTE BANGLE", "category": "Bracelets", "inr": 1620.0, "idr": 300000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_6810c905-a210-4961-8041-19addafba67d.jpg?v=1750140147"}, {"handle": "palmira-petals-earrings", "title": "PALMIRA  PETALS EARRINGS", "category": "Earrings", "inr": 1550.0, "idr": 287000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_18c8cb43-1808-4af2-9c0e-897a87a4ceeb.jpg?v=1750707384"}, {"handle": "begum-blaze-ring", "title": "BEGUM BLAZE RING", "category": "Rings", "inr": 1930.0, "idr": 357000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_ca7190a9-3fce-46c6-b418-e43e1d5a682f.jpg?v=1750705343"}, {"handle": "noor-edge-bangle", "title": "NOOR EDGE BANGLE (GOLD)", "category": "Bracelets", "inr": 1650.0, "idr": 305000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_5b8a365b-2635-4278-b4d9-35fa79496364.jpg?v=1750140147"}, {"handle": "gulglow-necklace", "title": "GULGLOW NECKLACE", "category": "Necklaces", "inr": 2205.0, "idr": 408000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_03ab7c3b-1d97-410d-bbef-aeff462cd246.jpg?v=1753946622"}, {"handle": "untitled-17jun_11-33", "title": "AMBER MIRAGE EARRINGS", "category": "Earrings", "inr": 1950.0, "idr": 361000, "image": "https://cdn.shopify.com/s/files/1/0936/6890/1150/files/rn-image_picker_lib_temp_fd96e732-e89b-473e-a700-934c1fd15e41.jpg?v=1750140147"}];
+
+function formatIDR(n){
+  return 'Rp ' + n.toLocaleString('id-ID');
+}
+
+function escapeHTML(s){
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+const categories = ['All', ...Array.from(new Set(PRODUCTS.map(p => p.category))).sort()];
+let activeCategory = 'All';
+let searchTerm = '';
+
+const tabsEl = document.getElementById('tabs');
+const gridEl = document.getElementById('grid');
+const countEl = document.getElementById('count');
+const emptyEl = document.getElementById('empty');
+const searchEl = document.getElementById('search');
+
+function renderTabs(){
+  tabsEl.innerHTML = categories.map(cat => {
+    const n = cat === 'All' ? PRODUCTS.length : PRODUCTS.filter(p => p.category === cat).length;
+    return `<button class="tab${cat === activeCategory ? ' active' : ''}" data-cat="${escapeHTML(cat)}">${escapeHTML(cat)} <span style="opacity:.55">(${n})</span></button>`;
+  }).join('');
+  tabsEl.querySelectorAll('.tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeCategory = btn.getAttribute('data-cat');
+      renderTabs();
+      renderGrid();
+    });
+  });
+}
+
+function renderGrid(){
+  const term = searchTerm.trim().toLowerCase();
+  const filtered = PRODUCTS.filter(p => {
+    const catOk = activeCategory === 'All' || p.category === activeCategory;
+    const searchOk = !term || p.title.toLowerCase().includes(term) || p.category.toLowerCase().includes(term);
+    return catOk && searchOk;
+  });
+
+  countEl.textContent = `Showing ${filtered.length} of ${PRODUCTS.length} pieces`;
+  emptyEl.style.display = filtered.length ? 'none' : 'block';
+
+  gridEl.innerHTML = filtered.map(p => `
+    <div class="card">
+      <div class="card-img">
+        <img src="${escapeHTML(p.image)}" alt="${escapeHTML(p.title)}" loading="lazy">
+      </div>
+      <div class="card-body">
+        <span class="card-cat">${escapeHTML(p.category)}</span>
+        <h3 class="card-title">${escapeHTML(p.title)}</h3>
+        <div class="card-price"><span class="curr">IDR</span>${formatIDR(p.idr)}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+searchEl.addEventListener('input', (e) => {
+  searchTerm = e.target.value;
+  renderGrid();
+});
+
+renderTabs();
+renderGrid();
+</script>
+</body>
+</html>
